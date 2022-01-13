@@ -32,5 +32,9 @@ app.all("/signin",(req,res)=>{
     res.render("login")
 });
 
+app.all("/signup",(req,res)=>{
+    res.render("login")
+});
+
 app.listen(process.env.PORT||3000);
 console.log("app is running")
