@@ -33,7 +33,7 @@ app.all("/signin",(req,res)=>{
 });
 
 app.all("/signup",(req,res)=>{
-    res.render("login")
+    res.render("signup")
 });
 
 app.listen(process.env.PORT||3000);
