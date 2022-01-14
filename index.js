@@ -76,14 +76,15 @@ app.get("/guestdashboard",(req,res)=>{
         db.query( sql,(err,results)=>
         {
             if (err) throw err;
-            const sql1 = `SELECT applicationform.id, status
-            FROM applicationform
-            INNER JOIN users ON applicationform.userid = users.id`
+            const sql1 = `SELECT status
+            FROM applicationform WHERE userid = ${user_id}`
             console.log(user_id)
             db.query(sql1,(err1,results1)=>{
                 if(err1) throw err1;
-                console.log(results1)
-                 res.render("guestdashboard",{data:results[0]});
+                results1.length >0 ?
+                res.render("guestdashboard",{data:results[0],status:results1[0].status}):
+                res.render("guestdashboard",{data:results[0],status:null});
+
             });
         })
     }else{
