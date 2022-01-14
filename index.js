@@ -76,12 +76,16 @@ app.get("/guestdashboard",(req,res)=>{
         db.query( sql,(err,results)=>
         {
             if (err) throw err;
-
-            res.render("guestdashboard",{data:results[0]});
-
+            const sql1 = `SELECT applicationform.id, status
+            FROM applicationform
+            INNER JOIN users ON applicationform.userid = users.id`
+            console.log(user_id)
+            db.query(sql1,(err1,results1)=>{
+                if(err1) throw err1;
+                console.log(results1)
+                 res.render("guestdashboard",{data:results[0]});
+            });
         })
-
-
     }else{
         res.redirect("/signin")
     }
@@ -142,6 +146,19 @@ app.get("/submitapplication/:id",(req,res)=>{
     }
 
 });
+
+app.post("/insertapplicationform",(req,res)=>{
+
+    const params = req.body;
+    const sql  = "INSERT INTO applicationform SET ?"
+
+    db.query(sql, params,(err, result)=>{
+        if(err) throw err;
+        res.redirect("/guestdashboard")
+    });
+
+});
+
 
 app.get("/logout",(req,res)=>{
     req.session.destroy();
