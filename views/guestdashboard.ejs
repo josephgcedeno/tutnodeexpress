@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-primary">
+        <!-- Navbar content -->
+        <a class="navbar-brand" href="/"><img width="20%" src="./images/love-logo.png" alt=""></a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <form id="update">
+                    <div class="form-group">
+                      <label for="upusername">Username</label>
+                      <input type="text" class="form-control" id="upusername" name="upusername" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="uppassword">Password</label>
+                        <input type="password" class="form-control" id="uppassword" name="uppassword" required>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="upfname">Firstname</label>
+                            <input type="text" class="form-control" id="upfname" aria-describedby="emailHelp" placeholder="Enter first name" name="upfname" required>
+                        </div>
+                        <div class="col">
+                            <label for="uplname">Lastname</label>
+                            <input type="text" class="form-control" id="uplname" aria-describedby="emailHelp" placeholder="Enter lastname" name="uplname" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="upcontactno">Contact Number</label>
+                        <input type="number" class="form-control" id="upcontactno" placeholder="Enter contact number" name="upcontactno" required>
+                      </div>
+                      <div class="form-group">
+                          <label for="upemailadd">Email address</label>
+                          <input type="email" class="form-control" id="upemailadd" aria-describedby="emailHelp" placeholder="Enter email" name="upemailadd" required>
+                          <input type="hidden" name="upid">
+                      </div>
+                      <button type="submit" class="btn btn-primary w-100">Update</button>
+                    
+                </form>
+            </div>
+
+        </div>
+        </div>
+    </div>
+
+    <div style="width: 100%; padding: 15%; padding-top: 5% ;">
+
+        <div class="card text-center">
+            <div class="card-header">
+              Hello user!
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><%= data.username %></h5>
+              <img src="./images/banner.png" width="100%" alt="">
+              <a href="/submitapplication/<%= data.id %> " class="btn btn-primary">Submit Application</a>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onclick="updateData(<%= JSON.stringify(data)  %>)">Edit User</button>
+
+            </div>
+            <div class="card-footer text-muted">
+            </div>
+          </div>
+
+    </div>
+    
+
+    
+</body>
+</html>
+
+<script>
+
+    $("form").on("submit",(e)=>{
+
+        e.preventDefault();
+        console.log($('form').serializeArray())
+        $.ajax({
+            type: "POST",
+            url: "/update",
+            dataType: "json",
+            data: $('form').serializeArray(),
+            success:()=>{
+                location.reload(true);
+            }
+        });
+
+    });
+
+    const updateData = (data)=> {
+        $(`input[name=upusername]`).val(data.username);
+        $(`input[name=uppassword]`).val(data.password);
+        $(`input[name=upfname]`).val(data.fname);
+        $(`input[name=uplname]`).val(data.lname);
+        $(`input[name=upcontactno]`).val(data.contactno);
+        $(`input[name=upemailadd]`).val(data.email);
+        $(`input[name=upid]`).val(data.id);
+
+
+    }
+
+</script>

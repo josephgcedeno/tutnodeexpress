@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding: 15%; padding-top: 2% !important; background-color: rgb(219, 219, 219);">
+   
+        <form style=" background-color: #eee; padding:5%; border-radius:5px;" method="POST">
+            <div class="row">
+                <div class="col">
+                    <label for="fname">Firstname</label>
+                    <input type="text" class="form-control" id="fname" aria-describedby="emailHelp" placeholder="Enter first name" name="fname" value="<%= data[0].fname %>" disabled>
+                </div>
+                <div class="col">
+                    <label for="lname">Lastname</label>
+                    <input type="text" class="form-control" id="lname" aria-describedby="emailHelp" placeholder="Enter lastname" name="lname" value="<%= data[0].lname %>" disabled>
+                </div>
+                <div class="col">
+                    <label for="mname">Middle Name:</label>
+                    <input type="text" class="form-control" id="mname" aria-describedby="emailHelp" placeholder="Enter lastname" name="mname"  required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="paddress">Present Address</label>
+                <input type="text" class="form-control" id="paddress" aria-describedby="emailHelp" placeholder="Present address" name="paddress" required>
+            </div>
+    
+            <div class="form-group">
+              <label for="Contact number">Contact Number</label>
+              <input type="number" class="form-control" id="Contact number" placeholder="Enter contact number" name="contactno" value="<%= data[0].contactno %>" disabled>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="nationality">Nationality</label>
+                    <input type="text" class="form-control" id="nationality" aria-describedby="emailHelp"  name="nationality" required>
+                </div>
+                <div class="col">
+                    <label for="sex">Sex</label>
+                    <input type="text" class="form-control" id="sex" aria-describedby="emailHelp"  name="sex" required>
+                </div>
+                <div class="col">
+                    <label for="birthdate">Birth Date:</label>
+                    <input type="date" class="form-control" id="birthdate" aria-describedby="emailHelp"  name="birthdate"  required>
+                </div>
+
+                <div class="col">
+                    <label for="height">Height</label>
+                    <input type="number" class="form-control" id="height" aria-describedby="emailHelp"  name="height" required>
+                </div>
+                <div class="col">
+                    <label for="weight">Weight</label>
+                    <input type="number" class="form-control" id="weight" aria-describedby="emailHelp"  name="weight"  required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="civilstat">Civil Status</label>
+                    <input type="text" class="form-control" id="civilstat" aria-describedby="emailHelp"  name="civilstat"  required>
+                </div>
+                <div class="col">
+                    <label for="radio">LICENSE CLASSIFICATION: </label>
+                    <div class="form-check form-check-inline" id="radio">
+                        <input class="form-check-input" type="radio" name="licenseclass" id="inlineRadio1" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">STUDENT-DRIVER'S
+                            PERMIT (SP)</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="licenseclass" id="inlineRadio2" value="option2">
+                        <label class="form-check-label" for="inlineRadio2">DRIVER'S LICENSE (DL)</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="licenseclass" id="inlineRadio3" value="option3">
+                        <label class="form-check-label" for="inlineRadio3">CONDUCTOR'S
+                            LICENSCE (CL))</label>
+                      </div>
+                </div>
+                <div class="col">
+                    <label for="drivingskillaquired">DRIVING SKILL ACQUIRED FROM (FOR DL APPLICANTS ONLY)</label>
+                    <input type="text" class="form-control" id="drivingskillaquired" aria-describedby="emailHelp"  name="drivingskillaquired"  required>
+                </div>
+                <div class="col">
+                    <label for="drivingskillaquired">HIGHEST EDUCATIONAL
+                        ATTAINMENT (EA)</label>
+                    <select class="custom-select" name="highesteducational" required>
+                        <option selected disabled>Select</option>
+                        <option value="postgraduate">POSTGRADUATE</option>
+                        <option value="college">COLLEGE</option>
+                        <option value="highschool">HIGH SCHOOL</option>
+                        <option value="elementary">ELEMENTARY</option>
+                    </select>
+                </div>
+                
+
+
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label for="bloodtype">Blood Type</label>
+                    <input type="text" class="form-control" id="bloodtype" aria-describedby="emailHelp"  name="bloodtype"  required>
+                </div>
+                <div class="col">
+                    <label for="organdonor">Organ Donor</label>
+                    <input type="text" class="form-control" id="organdonor" aria-describedby="emailHelp"  name="organdonor"  required>
+                </div>
+                <div class="col">
+                    <label for="eyecolor">Eye Color</label>
+                    <input type="text" class="form-control" id="eyecolor" aria-describedby="emailHelp"  name="eyecolor"  required>
+                </div>
+                <div class="col">
+                    <label for="typeofapplication">TYPE OF APPLICATION (TOA)</label>
+                    <input type="text" class="form-control" id="typeofapplication" aria-describedby="emailHelp"  name="typeofapplication"  required>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="fathername">Father's Name</label>
+                    <input type="text" class="form-control" id="fathername" aria-describedby="emailHelp"  name="fathername"  required>
+                </div>
+                <div class="col">
+                    <label for="mothername">Mother's Name</label>
+                    <input type="text" class="form-control" id="mothername" aria-describedby="emailHelp"  name="mothername"  required>
+                </div>
+                <div class="col">
+                    <label for="spousename">Spouse's Name</label>
+                    <input type="text" class="form-control" id="spousename" aria-describedby="emailHelp"  name="spousename"  required>
+                </div>
+                <div class="col">
+                    <label for="emercontact">Emergency Contact</label>
+                    <input type="text" class="form-control" id="emercontact" aria-describedby="emailHelp"  name="emercontact"  required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="vehiclecat">DRIVER'S LICENSE VEHICLE CATEGORY</label>
+                <input type="text" class="form-control" id="vehiclecat" aria-describedby="emailHelp" placeholder="eg. L1-L3, SV, Clutch Type" name="vehiclecat" required>
+            </div>
+
+            <div class="form-group">
+                <label for="conditions">CONDITIONS</label>
+                <select class="custom-select" id="conditions" name="conditions" required>
+                    <option selected disabled>Select</option>
+                    <option value="WEAR CORRECTIVE LENSES">WEAR CORRECTIVE LENSES</option>
+                    <option value="DRIVE ONLY W/ SPECIAL EQUIPMENT FOR UPPER LIMBS/LOWER LIMBS ">DRIVE ONLY W/ SPECIAL EQUIPMENT FOR UPPER LIMBS/LOWER LIMBS </option>
+                    <option value="DRIVE CUSTOMIZED MOTOR VEHICLE ONLY ">DRIVE CUSTOMIZED MOTOR VEHICLE ONLY </option>
+                    <option value="DAYLIGHT DRIVING ONLY"> DAYLIGHT DRIVING ONLY</option>
+                    <option value="HEARING AID IS REQUIRED"> HEARING AID IS REQUIRED</option>
+                </select>
+            </div>
+            <input type="hidden" class="form-control" value=<%= data[0].id %> aria-describedby="emailHelp"  name="userid"  >
+
+            <button type="submit" class="btn btn-primary w-100">Send Application</button>
+          </form>
+    </div>
+    
+</body>
+</html>
