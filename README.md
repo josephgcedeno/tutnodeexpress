@@ -1,7 +1,7 @@
 # Note: Mas better ning tutorial kesa sa actual nako na buhat sa assesment!
 # Video Tutorial:
-- Part 1: [Google drive URL](https://drive.google.com/file/d/1owR9sgzGbcw8f5XTOD3DSH0-HQsBlo48/view?fbclid=IwAR0XOkbvg_oyhMn8fZ8m5v6buV4TIWUTYP0yOqHcDDiQ0P0hNvKF0oWlJsk){:target="_blank"} 
-- Part 2: [Google drive URL](https://drive.google.com/file/d/1EW8WuRVhYXO7VnLn5Qv9PyR4wJ98CZi3/view?fbclid=IwAR3xyBU98iSdgE17oYlrzYtzEynAB8_65kBsB2gMV7MQcbvR-AcOBcHhm9g){:target="_blank"}
+- [Part 1](https://drive.google.com/file/d/1owR9sgzGbcw8f5XTOD3DSH0-HQsBlo48/view?fbclid=IwAR0XOkbvg_oyhMn8fZ8m5v6buV4TIWUTYP0yOqHcDDiQ0P0hNvKF0oWlJsk)
+- [Part 2](https://drive.google.com/file/d/1EW8WuRVhYXO7VnLn5Qv9PyR4wJ98CZi3/view?fbclid=IwAR3xyBU98iSdgE17oYlrzYtzEynAB8_65kBsB2gMV7MQcbvR-AcOBcHhm9g)
 
 # Setup Express app and EJS
 
