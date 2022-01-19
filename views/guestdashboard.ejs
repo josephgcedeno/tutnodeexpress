@@ -89,7 +89,7 @@
               <% if(status!=null){ %>
                 <button class="btn btn-primary" disabled>Application <%= status %></button>
               <% } else{ %>
-                <a href="/submitapplication/<%= data.id %>" class="btn btn-primary">Submit Application</a>
+                <a href="/submitapplication" class="btn btn-primary" target="_blank">Submit Application</a>
               <% }  %>
 
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onclick="updateData(<%= JSON.stringify(data)  %>)">Edit User</button>
@@ -107,9 +107,7 @@
 </html>
 
 <script>
-
     $("form").on("submit",(e)=>{
-
         e.preventDefault();
         console.log($('form').serializeArray())
         $.ajax({
@@ -121,9 +119,7 @@
                 location.reload(true);
             }
         });
-
     });
-
     const updateData = (data)=> {
         $(`input[name=upusername]`).val(data.username);
         $(`input[name=uppassword]`).val(data.password);
@@ -132,8 +128,5 @@
         $(`input[name=upcontactno]`).val(data.contactno);
         $(`input[name=upemailadd]`).val(data.email);
         $(`input[name=upid]`).val(data.id);
-
-
     }
-
 </script>
