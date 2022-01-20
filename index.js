@@ -5,6 +5,7 @@ var app = express();
 const path = require('path');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+const { Pool } = require('pg')
 
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -31,6 +32,20 @@ app.use(express.static(path.join(__dirname, '/public')));
 //     console.log("Connected to db")
 // })
 
+const pool = new Pool({
+  user: `dfxhfomhjdeoda`, 
+  host: `ec2-54-90-55-211.compute-1.amazonaws.com`,
+  database: `d3e0hg3phahk1a`, 
+  password: `933a372c3e3b794720aac36b2d45bd925112e702732819a23b079ee6cbc7cc9d`, 
+  port: 5432 , 
+  ssl:true,  
+})
+
+pool.query('SELECT * FROM users', (err, res) => {
+    if (err) throw err
+    console.log(res)
+
+});
 app.get("/",function(req,res){
     res.render("index")
 });
