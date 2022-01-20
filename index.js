@@ -38,14 +38,18 @@ const pool = new Pool({
   database: `d3e0hg3phahk1a`, 
   password: `933a372c3e3b794720aac36b2d45bd925112e702732819a23b079ee6cbc7cc9d`, 
   port: 5432 , 
-  ssl:true,  
+  ssl: {
+    rejectUnauthorized: false
+  }
 })
 
-pool.query('SELECT * FROM users', (err, res) => {
-    if (err) throw err
-    console.log(res)
 
-});
+
+// pool.query('SELECT * FROM users', (err, res) => {
+//     if (err) throw err
+//     console.log(res.rows)
+
+// });
 app.get("/",function(req,res){
     res.render("index")
 });
@@ -54,7 +58,7 @@ app.get("/admindashboard",(req,res)=>{
 
     if(req.session.userid!=null){
        
-        db.query(`
+        pool.query(`
         SELECT applicationform.id, username,fname,lname,status
         FROM applicationform
         INNER JOIN users ON applicationform.userid = users.id;
@@ -75,11 +79,12 @@ app.all("/signin",(req,res)=>{
 
     if(req.method=="POST"){
         const params = req.body;
-        const sql = `SELECT id, role FROM users WHERE username="${params.username}" AND password="${params.password}"`;
+        const sql = `SELECT id, role FROM users WHERE username='${params.username}' AND password='${params.password}'`;
 
-        db.query(sql, (err,results)=>{
+        pool.query(sql, (err,results)=>{
             if(err) throw err;
- 
+            results = results.rows;
+            console.log(results)
             if(results.length==0){
                res.render("login",{error:true})
             }else if(results.length!=0 && results[0].role=="guest"){
@@ -103,11 +108,13 @@ app.get("/guestdashboard",(req,res)=>{
 
     if(req.session.userid!=null){
 
-        db.query("SELECT * FROM users WHERE id = "+req.session.userid,(err, results)=>{
+        pool.query("SELECT * FROM users WHERE id = "+req.session.userid,(err, results)=>{
             if(err) throw err;
+            results = results.rows;
 
-            db.query("SELECT status	FROM applicationform WHERE userid="+req.session.userid,(err1, results1)=>{
+            pool.query("SELECT status	FROM applicationform WHERE userid="+req.session.userid,(err1, results1)=>{
                 if(err1) throw err1;
+                results1 = results1.rows;
 
                 results1.length >0 ?
                 res.render("guestdashboard",{data:results[0],status:results1[0].status}):
@@ -126,9 +133,9 @@ app.get("/guestdashboard",(req,res)=>{
 app.post("/update",(req,res)=>{
     const params = req.body;
 
-    const sql = `UPDATE users SET username="${params.upusername}",password="${params.uppassword}",fname="${params.upfname}",lname="${params.uplname}",contactno=${params.upcontactno}, email="${params.upemailadd}" WHERE id = ${params.upid}`;
+    const sql = `UPDATE users SET username='${params.upusername}',password='${params.uppassword}',fname='${params.upfname}',lname='${params.uplname}',contactno=${params.upcontactno}, email='${params.upemailadd}' WHERE id = ${params.upid}`;
 
-    db.query(sql,(err,result)=>{
+    pool.query(sql,(err,result)=>{
         if (err) throw err
         res.send(true);
 
@@ -142,10 +149,10 @@ app.all("/signup",(req,res)=>{
     if (req.method == "POST"){
         var params = req.body;
         params.role = "guest";
-        db.query("INSERT INTO users SET ?",params,(err,result)=>{
+        pool.query("INSERT INTO users SET ?",params,(err,result)=>{
             if(err) throw err;
 
-            db.query("SELECT LAST_INSERT_ID() as id",(err1, result1)=>{
+            pool.query("SELECT LAST_INSERT_ID() as id",(err1, result1)=>{
                 if(err1) throw err1;
                 var session = req.session;
                 session.userid = result1[0].id;
@@ -167,7 +174,7 @@ app.get("/logout",(req,res)=>{
 app.get("/submitapplication",(req,res)=>{
 
     if(req.session.userid!=null){
-        db.query(`SELECT * FROM users WHERE id = ${req.session.userid}`, (err, rows) => {
+        pool.query(`SELECT * FROM users WHERE id = ${req.session.userid}`, (err, rows) => {
             if(err) throw err;
             res.render("applicationform",{data:rows})
         })
@@ -181,7 +188,7 @@ app.post("/insertapplicationform",(req,res)=>{
     const params = req.body;
     const sql  = "INSERT INTO applicationform SET ?"
 
-    db.query(sql, params,(err, result)=>{
+    pool.query(sql, params,(err, result)=>{
         if(err) throw err;
         res.redirect("/guestdashboard")
     });
@@ -190,14 +197,14 @@ app.post("/insertapplicationform",(req,res)=>{
 
 app.post("/approveappliaction",(req,res)=>{
     const params=req.body;
-    db.query("UPDATE applicationform SET status = 'approve' WHERE id = "+params.upid,(err)=>{
+    pool.query("UPDATE applicationform SET status = 'approve' WHERE id = "+params.upid,(err)=>{
         if(err) throw err
         res.send(true);
     })
 });
 app.post("/declineappliaction",(req,res)=>{
     const params=req.body;
-    db.query("UPDATE applicationform SET status = 'decline' WHERE id = "+params.upid,(err)=>{
+    pool.query("UPDATE applicationform SET status = 'decline' WHERE id = "+params.upid,(err)=>{
         if(err) throw err
         res.send(true);
     })
