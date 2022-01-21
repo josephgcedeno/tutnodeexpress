@@ -71,3 +71,40 @@
 - git add .
 - git commit -m "commit to push"
 - git heroku push master
+
+# Postgres SQL:
+- Download PGadmin [Uuntu](https://tecadmin.net/how-to-install-pgadmin4-on-ubuntu-20-04/) [Windows](https://www.pgadmin.org/download/pgadmin-4-windows/)
+- Navigate to heroku create [postgres instance](https://data.heroku.com/). Simply attach the instance to your heroku project/appliaction.
+- Go to your project, navigate to you resources tab. Below click your postgres instance.
+- Go to settings, click View Credentials. Save your credentials.
+- On PGAdmin just enter your credentials. On Advance tab add restriction based on your database name.
+- On your terminal install: npm install pg --save
+- On your index.js
+  ```
+   const pool = new Pool({
+      user: `username`, 
+      host: `hostname`,
+      database: `dbname`, 
+      password: `password`, 
+      port: 5432 , 
+      ssl: {
+        rejectUnauthorized: false
+      }
+    })
+  ```
+- Sample Query:
+  ```
+     pool.query(`
+      SELECT *
+      FROM applicationform
+      INNER JOIN users ON applicationform.userid = users.id;
+      `, (err, rows) => {
+          if (!err) {
+              rows= rows.rows;
+              res.render('admin',{data:rows});
+          } 
+      })
+
+  
+  ```
+
