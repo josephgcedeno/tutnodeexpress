@@ -64,3 +64,10 @@
 - just open xampp 
 - then enable action start
 - CREATE DATABASE LOVE;
+# Pushing to heroku:
+- heroku login // enter credentials
+- heroku create [APP_NAME] 
+- git init
+- git add .
+- git commit -m "commit to push"
+- git heroku push master
