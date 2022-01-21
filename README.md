@@ -73,7 +73,7 @@
 - git heroku push master
 
 # Postgres SQL:
-- Download PGadmin [Uuntu](https://tecadmin.net/how-to-install-pgadmin4-on-ubuntu-20-04/) [Windows](https://www.pgadmin.org/download/pgadmin-4-windows/)
+- Download PGadmin [Ubuntu](https://tecadmin.net/how-to-install-pgadmin4-on-ubuntu-20-04/) [Windows](https://www.pgadmin.org/download/pgadmin-4-windows/)
 - Navigate to heroku create [postgres instance](https://data.heroku.com/). Simply attach the instance to your heroku project/appliaction.
 - Go to your project, navigate to you resources tab. Below click your postgres instance.
 - Go to settings, click View Credentials. Save your credentials.
