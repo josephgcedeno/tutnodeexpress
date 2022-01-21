@@ -6,6 +6,7 @@ const path = require('path');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 const { Pool } = require('pg')
+require('dotenv').config()
 
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -20,6 +21,7 @@ app.use(session({secret: "Shh, its a secret!",saveUninitialized:true, resave: fa
 
 app.use(express.static(path.join(__dirname, '/public')));
 
+//from line 25 - 35 mysql database
 const db = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
@@ -32,8 +34,7 @@ db.connect((err)=>{
     console.log("Connected to db")
 })
 
-require('dotenv').config()
-
+// from line 38 - 47 postgres database
 const pool = new Pool({
   user: `${process.env.PGUser}`, 
   host: `${process.env.PGHost}`,
@@ -45,112 +46,8 @@ const pool = new Pool({
   }
 })
 
-
-app.all("/buy",(req,res)=>
-{
-
-    if(req.method=="POST"){
-        const params = req.body;
-        const user_id = 1;
-
-        console.log()
-
-        var values = "";
-
-        for(var i = 0;params.itemselected;i++ ){
-            values
-        }
-        db.query(`INSERT INTO transaction ( 'product_id', 'user_id') VALUES (NULL, '1', '2')`)
-
-    }else{
-        db.query("SELECT * FROM product",(err,result)=>{
-
-            res.render("buy",{data:result});
-    
-        })
-    }
-
-});
-
 app.get("/",function(req,res){
     res.render("index")
-});
-
-app.get("/admindashboard",(req,res)=>{
-
-    if(req.session.userid!=null){
-       
-        pool.query(`
-        SELECT applicationform.id, username,fname,lname,status
-        FROM applicationform
-        INNER JOIN users ON applicationform.userid = users.id;
-        `, (err, rows) => {
-            if (!err) {
-                rows= rows.rows;
-                res.render('admin',{data:rows});
-            } 
-        })
-
-    }else{
-        res.redirect("/signin");
-    }
-
-});
-
-
-app.post("/addorder",(req,res)=>{
-
-    const params = req.body;
-    const session = req.session;
-    console.log(params);
-    console.log(session);
-    //adding item base on qunatity
-    // for(var i=0; i<session)
-
-})
-app.all("/menuform",(req,res)=>{
-
-
-    if(req.method=="POST"){
-        const params = req.body;
-
-        console.log(params.q1)
-  
-        var session = req.session;
-
-        session.selecteditems = params.selected;
-        session.selectedquantities = [];
-
-        var ids = "(";
-
-        
-
-        for(var i = 0; i<session.selecteditems.length; i++){
-            idtemp = session.selecteditems[i];
-            ids+=idtemp;
-
-            params[`q${idtemp}`]!='' ? session.selectedquantities.push(params[`q${idtemp}`]) : '';
-
-            i+1 != session.selecteditems.length ? ids+="," : ''; 
-        }
-        ids+=")";
-
-
-        db.query("SELECT * FROM product WHERE id in "+ids,(err,result)=>{
-            console.log(session)
-            res.render("oderform",{data:result,quantities:session.selectedquantities,username:session.username})
-
-        })
-
-
-    }else{
-        
-        db.query("SELECT * FROM product",(err,result)=>{
-    
-            res.render("menuform",{data:result});
-        })
-    }
-
 });
 
 app.all("/signin",(req,res)=>{
