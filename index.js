@@ -20,36 +20,31 @@ app.use(session({secret: "Shh, its a secret!",saveUninitialized:true, resave: fa
 
 app.use(express.static(path.join(__dirname, '/public')));
 
-// const db = mysql.createConnection({
-//     host     : 'localhost',
-//     user     : 'root',
-//     password : '',
-//     database : 'tutorial2'
-// });
+const db = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database : 'tutorial2'
+});
 
-// db.connect((err)=>{
-//     if(err) throw err
-//     console.log("Connected to db")
-// })
+db.connect((err)=>{
+    if(err) throw err
+    console.log("Connected to db")
+})
+
+require('dotenv').config()
 
 const pool = new Pool({
-  user: `dfxhfomhjdeoda`, 
-  host: `ec2-54-90-55-211.compute-1.amazonaws.com`,
-  database: `d3e0hg3phahk1a`, 
-  password: `933a372c3e3b794720aac36b2d45bd925112e702732819a23b079ee6cbc7cc9d`, 
-  port: 5432 , 
+  user: `${process.env.PGUser}`, 
+  host: `${process.env.PGHost}`,
+  database: `${process.env.PGDatabase}`, 
+  password: `${process.env.PGPassword}`, 
+  port:  process.env.PGPort, 
   ssl: {
     rejectUnauthorized: false
   }
 })
 
-
-
-// pool.query('SELECT * FROM users', (err, res) => {
-//     if (err) throw err
-//     console.log(res.rows)
-
-// });
 
 app.all("/buy",(req,res)=>
 {
