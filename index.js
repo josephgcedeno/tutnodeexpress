@@ -20,17 +20,17 @@ app.use(session({secret: "Shh, its a secret!",saveUninitialized:true, resave: fa
 
 app.use(express.static(path.join(__dirname, '/public')));
 
-const db = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : '',
-    database : 'tutorial2'
-});
+// const db = mysql.createConnection({
+//     host     : 'localhost',
+//     user     : 'root',
+//     password : '',
+//     database : 'tutorial2'
+// });
 
-db.connect((err)=>{
-    if(err) throw err
-    console.log("Connected to db")
-})
+// db.connect((err)=>{
+//     if(err) throw err
+//     console.log("Connected to db")
+// })
 
 const pool = new Pool({
   user: `dfxhfomhjdeoda`, 
