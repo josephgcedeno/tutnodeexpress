@@ -20,17 +20,17 @@ app.use(session({secret: "Shh, its a secret!",saveUninitialized:true, resave: fa
 
 app.use(express.static(path.join(__dirname, '/public')));
 
-// const db = mysql.createConnection({
-//     host     : 'localhost',
-//     user     : 'root',
-//     password : '',
-//     database : 'tutorial2'
-// });
+const db = mysql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database : 'tutorial2'
+});
 
-// db.connect((err)=>{
-//     if(err) throw err
-//     console.log("Connected to db")
-// })
+db.connect((err)=>{
+    if(err) throw err
+    console.log("Connected to db")
+})
 
 const pool = new Pool({
   user: `dfxhfomhjdeoda`, 
@@ -50,6 +50,33 @@ const pool = new Pool({
 //     console.log(res.rows)
 
 // });
+
+app.all("/buy",(req,res)=>
+{
+
+    if(req.method=="POST"){
+        const params = req.body;
+        const user_id = 1;
+
+        console.log()
+
+        var values = "";
+
+        for(var i = 0;params.itemselected;i++ ){
+            values
+        }
+        db.query(`INSERT INTO transaction ( 'product_id', 'user_id') VALUES (NULL, '1', '2')`)
+
+    }else{
+        db.query("SELECT * FROM product",(err,result)=>{
+
+            res.render("buy",{data:result});
+    
+        })
+    }
+
+});
+
 app.get("/",function(req,res){
     res.render("index")
 });
@@ -64,13 +91,69 @@ app.get("/admindashboard",(req,res)=>{
         INNER JOIN users ON applicationform.userid = users.id;
         `, (err, rows) => {
             if (!err) {
-                console.log(rows)
+                rows= rows.rows;
                 res.render('admin',{data:rows});
             } 
         })
 
     }else{
         res.redirect("/signin");
+    }
+
+});
+
+
+app.post("/addorder",(req,res)=>{
+
+    const params = req.body;
+    const session = req.session;
+    console.log(params);
+    console.log(session);
+    //adding item base on qunatity
+    // for(var i=0; i<session)
+
+})
+app.all("/menuform",(req,res)=>{
+
+
+    if(req.method=="POST"){
+        const params = req.body;
+
+        console.log(params.q1)
+  
+        var session = req.session;
+
+        session.selecteditems = params.selected;
+        session.selectedquantities = [];
+
+        var ids = "(";
+
+        
+
+        for(var i = 0; i<session.selecteditems.length; i++){
+            idtemp = session.selecteditems[i];
+            ids+=idtemp;
+
+            params[`q${idtemp}`]!='' ? session.selectedquantities.push(params[`q${idtemp}`]) : '';
+
+            i+1 != session.selecteditems.length ? ids+="," : ''; 
+        }
+        ids+=")";
+
+
+        db.query("SELECT * FROM product WHERE id in "+ids,(err,result)=>{
+            console.log(session)
+            res.render("oderform",{data:result,quantities:session.selectedquantities,username:session.username})
+
+        })
+
+
+    }else{
+        
+        db.query("SELECT * FROM product",(err,result)=>{
+    
+            res.render("menuform",{data:result});
+        })
     }
 
 });
@@ -90,11 +173,13 @@ app.all("/signin",(req,res)=>{
             }else if(results.length!=0 && results[0].role=="guest"){
                 var session = req.session
                 session.userid = results[0].id;
+                session.username = params.username;
                 res.redirect("/guestdashboard");
             }
             else if(results.length!=0 && results[0].role=="admin"){
                 var session = req.session
                 session.userid = results[0].id;
+                session.username = params.username;
                 res.redirect("/admindashboard");
             }
         })
@@ -112,7 +197,7 @@ app.get("/guestdashboard",(req,res)=>{
             if(err) throw err;
             results = results.rows;
 
-            pool.query("SELECT status	FROM applicationform WHERE userid="+req.session.userid,(err1, results1)=>{
+            pool.query("SELECT status FROM applicationform WHERE userid="+req.session.userid,(err1, results1)=>{
                 if(err1) throw err1;
                 results1 = results1.rows;
 
@@ -145,19 +230,44 @@ app.post("/update",(req,res)=>{
 
 
 app.all("/signup",(req,res)=>{
+//     const text = 'INSERT INTO users(name, email) VALUES($1, $2) RETURNING *'
+// const values = ['brianc', 'brian.m.carlson@gmail.com']
+// // callback
+// client.query(text, values, (err, res) => {
+// username: 'asdasd',
+// password: 'asdasd',
+// fname: 'asdasd',
+// lname: 'asdasd',
+// contactno: '123',
+// email: 'sda@asd.cc'
+// for (var key of Object.keys(p)) {
+//     console.log(key + " -> " + p[key])
+// }
 
     if (req.method == "POST"){
         var params = req.body;
         params.role = "guest";
-        pool.query("INSERT INTO users SET ?",params,(err,result)=>{
-            if(err) throw err;
+        var keys = "";
+        var values = [];
+        var i = 1;
+        for (var key of Object.keys(params)){
+            
+            keys+=key;
+            values.push(params[key])
+            i != Object.keys(params).length ? keys+="," : "";
+            i++;
+        }
 
-            pool.query("SELECT LAST_INSERT_ID() as id",(err1, result1)=>{
-                if(err1) throw err1;
-                var session = req.session;
-                session.userid = result1[0].id;
-                res.redirect("/guestdashboard");
-            })
+        const sql = `INSERT INTO users(${keys}) VALUES($1,$2,$3,$4,$5,$6,$7)  RETURNING id`
+        pool.query(sql,values,(err,result)=>{
+            if(err) throw err;
+            result = result.rows;
+
+            var session = req.session;
+            session.userid = result[0].id;
+            session.username = params.username;
+
+            res.redirect("/guestdashboard");
 
         })
 
@@ -176,6 +286,7 @@ app.get("/submitapplication",(req,res)=>{
     if(req.session.userid!=null){
         pool.query(`SELECT * FROM users WHERE id = ${req.session.userid}`, (err, rows) => {
             if(err) throw err;
+            rows= rows.rows;
             res.render("applicationform",{data:rows})
         })
     }else{
@@ -186,12 +297,29 @@ app.get("/submitapplication",(req,res)=>{
 app.post("/insertapplicationform",(req,res)=>{
 
     const params = req.body;
-    const sql  = "INSERT INTO applicationform SET ?"
 
-    pool.query(sql, params,(err, result)=>{
+    var keys = "";
+    var values = [];
+    var valuestupp = "";
+    var i = 1;
+    for (var key of Object.keys(params)){
+        
+        keys+=key;
+        valuestupp+="$"+i;
+        values.push(params[key])
+        if( i != Object.keys(params).length){
+            keys+="," 
+            valuestupp+=",";
+        } 
+        i++;
+    }
+
+    const sql = `INSERT INTO applicationform(${keys}) VALUES(${valuestupp})`
+    pool.query(sql,values,(err,result)=>{
         if(err) throw err;
         res.redirect("/guestdashboard")
     });
+
 
 });
 

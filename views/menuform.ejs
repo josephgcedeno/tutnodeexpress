@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <form method="POST">
+        <table border="1px">
+            <thead>
+                <th>Product name</th>
+                <th>Product price</th>
+                <th>Product quan</th>
+                <th>select this</th>
+            </thead>
+            <tbody>
+                <% for(var i=0; i < data.length; i++) { %>
+                    <tr>
+                        <td><%= data[i].product_name %></td>
+                        <td><%= data[i].product_price %></td>
+                        <td><input type="text" name="q<%= data[i].id %>"></td>
+                        <td><input type="checkbox" name="selected" value="<%= data[i].id %>"></td>
+                    </tr>
+                <% } %>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td><input type="submit"  value="checkout"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+    
+</body>
+</html>

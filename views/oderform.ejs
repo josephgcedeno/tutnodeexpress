@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST" action="/addorder">
+        <label>Date: </label><input type="date" name="date"><br>
+        <label>Customer name: </label><input type="text" name="customername" value="<%= username %>" disabled><br>
+
+        <label>Order type: (Please choose one of the options):</label><br>
+     
+        <input type="radio" id="del" name="mod" value="Delivery">
+        <label for="del">Delivery</label><br>
+        <label for="add">Customer Address</label><br>
+        <input type="text" name="custadd" id="add">
+        <br>
+
+        <input type="radio" id="pick" name="mod" value="Pick-up">
+        <label for="pick">Pick-up</label><br>
+
+        <table border="1px">
+            <thead>
+                <th>Food Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </thead>
+            <tbody>
+                <% var total_price = 0; %>
+                <% for(var i=0; i < data.length; i++) { %>
+                    <%  total_price += parseInt(data[i].product_price)  * quantities[i]  %>
+                    <tr>
+                        <td><%= data[i].product_name %></td>
+                        <td><%= quantities[i] %></td>
+                        <td><%= data[i].product_price * quantities[i]  %></td>
+                    </tr>
+                <% } %>
+           
+            </tbody>
+        </table>
+        <label>TOTAL AMOUNT: </label>
+        <input type="text" name="total" value="<%= total_price %>" disabled>
+        <br>    
+        <input type="submit" value="Checkout">
+
+
+    </form>
+    
+</body>
+</html>
