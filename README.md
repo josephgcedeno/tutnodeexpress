@@ -1,7 +1,7 @@
 ### Note: Mas better ning tutorial kesa sa actual nako na buhat sa assesment!
 # Actual App deployed on heroku:
 - [Preview](https://tutut2.herokuapp.com/)
- ![alt text](https://raw.githubusercontent.com/josephgcedeno/tutnodeexpress/master/public/prev.png)
+ ![Preview Image](https://raw.githubusercontent.com/josephgcedeno/tutnodeexpress/master/public/prev.png)
 
 
 # Video Tutorial:
