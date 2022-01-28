@@ -106,6 +106,22 @@ app.get("/guestdashboard",(req,res)=>{
 
 });
 
+app.get("/admindashboard",(req,res)=>{
+    if(req.session.userid != null){
+
+        db.query(`SELECT applicationform.id, username,fname,lname,status
+        FROM applicationform
+        INNER JOIN users ON applicationform.userid = users.id`, (err,result) => {
+            if(err) throw err
+            res.render('admin',{data:result});
+        })
+    }else{
+        res.redirect('/signin');
+    }
+    
+
+});
+
 
 app.post("/update",(req,res)=>{
     const params = req.body;
@@ -122,19 +138,7 @@ app.post("/update",(req,res)=>{
 
 
 app.all("/signup",(req,res)=>{
-//     const text = 'INSERT INTO users(name, email) VALUES($1, $2) RETURNING *'
-// const values = ['brianc', 'brian.m.carlson@gmail.com']
-// // callback
-// client.query(text, values, (err, res) => {
-// username: 'asdasd',
-// password: 'asdasd',
-// fname: 'asdasd',
-// lname: 'asdasd',
-// contactno: '123',
-// email: 'sda@asd.cc'
-// for (var key of Object.keys(p)) {
-//     console.log(key + " -> " + p[key])
-// }
+
 
     if (req.method == "POST"){
         var params = req.body;
